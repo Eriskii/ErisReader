@@ -1,0 +1,46 @@
+{
+  "name": "erisreader",
+  "productName": "ErisReader",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Read PDFs and talk their passages through with ErisHarness agents, in the margin",
+  "type": "module",
+  "main": "out/main/index.js",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "npm run build:agents && node scripts/pdfjs-assets.mjs && vite build --config vite.main.config.ts && vite build --config vite.preload.config.ts && vite build",
+    "build:agents": "cargo build --release --manifest-path agents/Cargo.toml && mkdir -p out/agents && cp agents/target/release/erisreader-agents out/agents/",
+    "start": "npm run build && electron .",
+    "prepare": "svelte-kit sync && node scripts/pdfjs-assets.mjs",
+    "typecheck": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --threshold error",
+    "test": "npm run test:agents && npm run test:unit && npm run test:e2e",
+    "test:agents": "cargo test --manifest-path agents/Cargo.toml",
+    "test:unit": "vitest run",
+    "test:e2e": "npm run build && node scripts/e2e.mjs",
+    "test:e2e:headed": "npm run build && E2E_HEADED=1 playwright test"
+  },
+  "dependencies": {
+    "@fontsource-variable/google-sans-flex": "^5.3.1",
+    "@lucide/svelte": "^1.52.0",
+    "dompurify": "^3.4.14",
+    "katex": "^0.19.0",
+    "marked": "^18.0.11",
+    "pdfjs-dist": "^6.4.299"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@sveltejs/adapter-static": "^4.0.0",
+    "@sveltejs/kit": "^3.0.0",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@types/node": "^24.19.1",
+    "electron": "44.3.0",
+    "svelte": "^5.57.1",
+    "svelte-check": "^4.7.6",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.2",
+    "vitest": "^5.0.3"
+  },
+  "imports": {
+    "#lib/*": "./src/lib/*"
+  }
+}
