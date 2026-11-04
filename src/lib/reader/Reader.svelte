@@ -13,6 +13,7 @@
   import AccountsSettings from '../settings/AccountsSettings.svelte'
   import AgentTypesSettings from '../settings/AgentTypesSettings.svelte'
   import SettingsModal from '../settings/SettingsModal.svelte'
+  import { shortcut } from './shortcut'
   import Welcome from './Welcome.svelte'
 
   /**
@@ -148,18 +149,18 @@
       class="control"
       aria-label="Annotations"
       aria-expanded={store.listOpen}
-      title="Annotations · Ctrl K"
+      title="Annotations · {shortcut('K')}"
       onclick={() => (store.listOpen = !store.listOpen)}><PanelLeft size={16} strokeWidth={1.5} aria-hidden="true" /></button
     >
     {#if store.document}
-      <button class="control" aria-label="Open another PDF" title="Open a PDF · Ctrl O" onclick={() => void store.pickDocument()}
+      <button class="control" aria-label="Open another PDF" title="Open a PDF · {shortcut('O')}" onclick={() => void store.pickDocument()}
         ><FolderOpen size={16} strokeWidth={1.5} aria-hidden="true" /></button
       >
       <button
         class="control"
         aria-label="Screenshot a region"
         aria-pressed={snipping}
-        title="Screenshot a region · Ctrl Shift S"
+        title="Screenshot a region · {shortcut('Shift S')}"
         onclick={snip}><SquareDashedMousePointer size={16} strokeWidth={1.5} aria-hidden="true" /></button
       >
     {/if}
@@ -170,13 +171,13 @@
 
   {#if store.document && view}
     <div class="corner bottom-left">
-      <button class="control" aria-label="Zoom in" title="Zoom in · Ctrl +" onclick={() => view?.zoomIn()}
+      <button class="control" aria-label="Zoom in" title="Zoom in · {shortcut('+')}" onclick={() => view?.zoomIn()}
         ><Plus size={14} strokeWidth={1.5} aria-hidden="true" /></button
       >
-      <button class="control zoom" aria-label="Fit to the window" title="Fit to the window · Ctrl 0" onclick={() => view?.fit()}
+      <button class="control zoom" aria-label="Fit to the window" title="Fit to the window · {shortcut('0')}" onclick={() => view?.fit()}
         >{view.zoomLabel()}</button
       >
-      <button class="control" aria-label="Zoom out" title="Zoom out · Ctrl −" onclick={() => view?.zoomOut()}
+      <button class="control" aria-label="Zoom out" title="Zoom out · {shortcut('−')}" onclick={() => view?.zoomOut()}
         ><Minus size={14} strokeWidth={1.5} aria-hidden="true" /></button
       >
       <span class="readout" aria-label="Document position" title="Page, of pages"

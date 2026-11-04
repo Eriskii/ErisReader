@@ -3,6 +3,7 @@
   import Trash2 from '@lucide/svelte/icons/trash-2'
   import type { Annotation } from '../../shared/reader'
   import { anchorRects } from '../document/geometry'
+  import { shortcut } from '../reader/shortcut'
   import type { ReaderStore } from './reader-store.svelte'
   import { ago } from './time'
 
@@ -93,7 +94,7 @@
         {:else if store.annotations.length}
           No annotation has that in it.
         {:else}
-          Select text and ask about it, or screenshot a region with Ctrl Shift S. Its chat is kept here.
+          Select text and ask about it, or screenshot a region with {shortcut('Shift S')}. Its chat is kept here.
         {/if}
       </li>
     {/each}

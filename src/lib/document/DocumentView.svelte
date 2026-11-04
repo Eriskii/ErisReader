@@ -3,6 +3,7 @@
   import type { Anchor, PageRect } from '../../shared/reader'
   import AnnotationChat from '../annotations/AnnotationChat.svelte'
   import type { OpenDocument, ReaderStore } from '../annotations/reader-store.svelte'
+  import { shortcut } from '../reader/shortcut'
   import { anchorRects, annotationAt, dragRect, pageRects, type Point } from './geometry'
   import PageView, { type Mark } from './PageView.svelte'
   import { CSS_PER_POINT, regionImage, regionText } from './pdf'
@@ -349,11 +350,19 @@
     return byPage
   })
 
+  /** How far the wheel turns for a step of zoom: a trackpad's pinch comes as a stream of small turns. */
+  const WHEEL_STEP = 30
+  let wheeled = 0
+
   function wheel(event: WheelEvent): void {
-    if (!event.ctrlKey) return
+    if (!event.ctrlKey && !event.metaKey) return
     event.preventDefault()
-    if (event.deltaY < 0) zoomIn()
-    else if (event.deltaY > 0) zoomOut()
+    if (Math.sign(event.deltaY) !== Math.sign(wheeled)) wheeled = 0
+    wheeled += event.deltaY
+    if (Math.abs(wheeled) < WHEEL_STEP) return
+    if (wheeled < 0) zoomIn()
+    else zoomOut()
+    wheeled = 0
   }
 
   function wheelZoom(node: HTMLElement) {
@@ -403,7 +412,7 @@
         class="ask"
         style:left={`${selection.at.x}px`}
         style:top={`${selection.at.y + 8}px`}
-        title="Ask about the selection · Ctrl L"
+        title="Ask about the selection · {shortcut('L')}"
         onpointerdown={(event) => event.preventDefault()}
         onclick={(event) => {
           event.stopPropagation()

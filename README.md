@@ -6,7 +6,8 @@ app: the document fills the window, with no frame around it.
 
 - **Reading**: pages in a column down the middle of a dark reading surface, drawn by pdf.js with
   its text layer for selecting. The view fits the widest page to the window, leaving room for a
-  chat beside it; `Ctrl +`, `Ctrl −` and `Ctrl` with the wheel zoom, and `Ctrl 0` fits again.
+  chat beside it; `Ctrl +`, `Ctrl −`, `Ctrl` with the wheel and a trackpad's pinch zoom, and
+  `Ctrl 0` fits again. On macOS, `⌘` does for `Ctrl` in every key here, and the app names it so.
   A new zoom or window size stretches the pages at once and draws them again once it holds.
   A document reopens where it was left.
 - **Annotations**: select text and choose **Ask about this** (or `Ctrl L`), or press
@@ -95,7 +96,8 @@ recent.json            the documents opened lately
 
 Needs Node 22+ and Rust (cargo). Inside the monorepo, `.cargo/config.toml` builds the agents
 helper against the local ErisHarness. On Linux, the Nix dev shell supplies Node, a Nix-built
-Electron 44, and `xvfb-run` for the e2e tests; on macOS, npm's Electron is used.
+Electron 44, and `xvfb-run` for the e2e tests; on macOS, npm's Electron is used, and Homebrew's
+`rustup` keeps `cargo` in `/opt/homebrew/opt/rustup/bin`, which has to be on the `PATH`.
 
 ```sh
 nix-shell                 # Linux

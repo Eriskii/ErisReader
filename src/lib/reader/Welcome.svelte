@@ -2,6 +2,7 @@
   import FileText from '@lucide/svelte/icons/file-text'
   import type { ReaderStore } from '../annotations/reader-store.svelte'
   import { ago } from '../annotations/time'
+  import { shortcut } from './shortcut'
 
   /** What the window shows with no document open: a way to open one, and the recent ones. */
   let { store }: { store: ReaderStore } = $props()
@@ -14,7 +15,7 @@
   <p>Select a passage, or screenshot a region, and talk it through with an agent right there in the margin.</p>
   <div class="actions">
     <button class="ui-button primary" disabled={store.opening !== undefined} onclick={() => void store.pickDocument()}>Open a PDF…</button>
-    <span class="hint">Ctrl O, or drop one on the window</span>
+    <span class="hint">{shortcut('O')}, or drop one on the window</span>
   </div>
   {#if store.opening}
     <p class="status" role="status">Opening {store.opening}…</p>

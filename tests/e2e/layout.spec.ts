@@ -91,6 +91,22 @@ test.describe('the reading view', () => {
     await reader().getByRole('group', { name: 'Page 3', exact: true }).scrollIntoViewIfNeeded()
     await expect(page.getByLabel('Document position')).toHaveText('3 / 3')
   })
+
+  test('a pinch, a stream of small wheel turns, zooms a step at a time', async () => {
+    const zoom = button('Fit to the window')
+    const before = await zoom.textContent()
+    const pinch = (turns: number) =>
+      firstPage().evaluate((node, turns) => {
+        for (let turn = 0; turn < turns; turn++) {
+          node.dispatchEvent(new WheelEvent('wheel', { deltaY: -5, ctrlKey: true, bubbles: true, cancelable: true }))
+        }
+      }, turns)
+    await pinch(5)
+    await page.evaluate(() => new Promise(requestAnimationFrame))
+    await expect(zoom).toHaveText(before!)
+    await pinch(1)
+    await expect(zoom).not.toHaveText(before!)
+  })
 })
 
 test.describe('settings', () => {
